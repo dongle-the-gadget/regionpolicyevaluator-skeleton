@@ -3,5 +3,4 @@ resolver = "2"
 members = [
     "crates/component",
     "crates/bindings",
-    "crates/client",
 ]

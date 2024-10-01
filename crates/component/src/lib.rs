@@ -6,7 +6,7 @@ use windows::{
     core::*,
     Win32::{
         Foundation::*,
-        System::WinRT::{IActivationFactory, IActivationFactory_Impl},
+        System::WinRT::*
     },
 };
 
@@ -32,7 +32,7 @@ struct ClassFactory {
     log: File,
 }
 
-impl IRegionPolicyEvaluatorStatics_Impl for ClassFactory {
+impl IRegionPolicyEvaluatorStatics_Impl for ClassFactory_Impl {
     fn EvaluatePolicyState(
         &self,
         policy: &windows_core::GUID,
@@ -50,7 +50,7 @@ impl IRegionPolicyEvaluatorStatics_Impl for ClassFactory {
     }
 }
 
-impl IActivationFactory_Impl for ClassFactory {
+impl IActivationFactory_Impl for ClassFactory_Impl {
     fn ActivateInstance(&self) -> Result<IInspectable> {
         Err(E_NOTIMPL.into())
     }

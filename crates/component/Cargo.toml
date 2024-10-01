@@ -11,13 +11,10 @@ crate-type = ["cdylib"]
 path = "../bindings"
 
 [dependencies.windows-core]
-git = "https://github.com/microsoft/windows-rs"
-features = [
-    "implement",
-]
+version = "0.58.0"
 
 [dependencies.windows]
-git = "https://github.com/microsoft/windows-rs"
+version = "0.58.0"
 features = [
     "implement",
     "Foundation",

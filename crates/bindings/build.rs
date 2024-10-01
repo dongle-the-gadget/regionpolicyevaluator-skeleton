@@ -4,6 +4,7 @@ fn main() {
     println!("cargo:rerun-if-changed=winmd/W.I.S.P.RegionPolicyEvaluator.idl");
     println!("cargo:rerun-if-changed=riddle.rsp");
 
+    let metadata_dir = format!("{}\\System32\\WinMetadata", env!("windir"));
     let mut command = Command::new("midlrt.exe");
     command.arg("@midlrt.rsp");
 
@@ -11,11 +12,17 @@ fn main() {
         panic!("MIDLRT failed.");
     }
 
-    let status = Command::new("riddle")
-        .arg("--etc")
-        .arg("riddle.rsp")
-        .status()
-        .expect("Failed to run riddle. Is it installed?");
-
-    assert!(status.code().unwrap() == 0);
+    if let Err(error) = windows_bindgen::bindgen([
+        "--in",
+        "winmd/",
+        &metadata_dir,
+        "--out",
+        "src/bindings.rs",
+        "--filter",
+        "Windows.Internal.System.Profile",
+        "--config",
+        "implement",
+    ]) {
+        panic!("{error}");
+    }
 }
